@@ -1,0 +1,521 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if edit_mode %}
+        Edit Application: {{ app_name }}
+    {% else %}
+        Add New Application
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<h2>{% if edit_mode %}Edit Application{% else %}Add New Application{% endif %}</h2>
+
+<form method="POST" id="app-discovery-form">
+    {{ form.hidden_tag() }}
+
+    <h3>Application Overview</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.app_name.label }}<br>
+            {{ form.app_overview.app_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_desc_full.label }}<br>
+            {{ form.app_overview.app_desc_full(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_type.label }}<br>
+            {{ form.app_overview.app_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_version.label }}<br>
+            {{ form.app_overview.app_version(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_age.label }}<br>
+            {{ form.app_overview.app_age(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_complexity.label }}<br>
+            {{ form.app_overview.app_complexity(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_support.label }}<br>
+            {{ form.app_overview.app_support(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Business Details</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_owner.label }}<br>
+            {{ form.app_overview.business_details.business_owner(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_purpose.label }}<br>
+            {{ form.app_overview.business_details.business_purpose(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_criticality.label }}<br>
+            {{ form.app_overview.business_details.business_criticality(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_impact.label }}<br>
+            {{ form.app_overview.business_details.business_impact(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Application Meta</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.application_meta.number_of_users.label }}<br>
+            {{ form.app_overview.application_meta.number_of_users(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.release_freq.label }}<br>
+            {{ form.app_overview.application_meta.release_freq(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.work_hours_stand.label }}<br>
+            {{ form.app_overview.application_meta.work_hours_stand(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.planned_reg_downtime.label }}<br>
+            {{ form.app_overview.application_meta.planned_reg_downtime(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.documentation.label }}<br>
+            {{ form.app_overview.application_meta.documentation(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Application Stakeholders</h3>
+    <div id="stakeholder-information-list" class="form-row">
+        {% for stakeholder_form in form.app_stakeholders %}
+        <div class="stakeholder-information">
+            <div class="form-group">
+                {{ stakeholder_form.stakeholder_name.label }}<br>
+                {{ stakeholder_form.stakeholder_name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.contact_type.label }}<br>
+                {{ stakeholder_form.contact_type(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.business_unit.label }}<br>
+                {{ stakeholder_form.business_unit(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.department.label }}<br>
+                {{ stakeholder_form.department(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.number.label }}<br>
+                {{ stakeholder_form.number(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.email.label }}<br>
+                {{ stakeholder_form.email(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.position.label }}<br>
+                {{ stakeholder_form.position(class_="form-control") }}
+            </div>
+            <button type="button" class="btn btn-danger remove-stakeholder-button">Remove Stakeholder</button>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-stakeholder-button" class="btn btn-primary">Add Another Stakeholder</button>
+
+    <h3>Business Capability Model</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_bus_cap_model.capability_model.label }}<br>
+            {{ form.app_bus_cap_model.capability_model(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.front_office.label }} {{ form.app_bus_cap_model.front_office }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.back_office.label }} {{ form.app_bus_cap_model.back_office }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.middle_office.label }} {{ form.app_bus_cap_model.middle_office }}
+        </div>
+    </div>
+
+    <h3>Application Operation</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_operation.high_availability.label }} {{ form.app_operation.high_availability }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.disaster_recovery.label }} {{ form.app_operation.disaster_recovery }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.rto.label }}<br>
+            {{ form.app_operation.rto(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.rpo.label }}<br>
+            {{ form.app_operation.rpo(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Servers</h3>
+    <div id="server-information-list" class="form-row">
+        {% for server_form in form.server_information %}
+        <div class="server-information">
+            <div class="form-group">
+                {{ server_form.environment.label }}<br>
+                {{ server_form.environment(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.hostname.label }}<br>
+                {{ server_form.hostname(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.role.label }}<br>
+                {{ server_form.role(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.platform_type.label }}<br>
+                {{ server_form.platform_type(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.shared_or_dedicated.label }}<br>
+                {{ server_form.shared_or_dedicated(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os.label }}<br>
+                {{ server_form.os(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os_features.label }}<br>
+                {{ server_form.os_features(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.cpu.label }}<br>
+                {{ server_form.cpu(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.ram.label }}<br>
+                {{ server_form.ram(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os_disk_gb.label }}<br>
+                {{ server_form.os_disk_gb(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.data_disk_count.label }}<br>
+                {{ server_form.data_disk_count(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.shared_data_store.label }}<br>
+                {{ server_form.shared_data_store(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.network_environment.label }}<br>
+                {{ server_form.network_environment(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.network_hostname.label }}<br>
+                {{ server_form.network_hostname(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.network_name.label }}<br>
+                {{ server_form.network_name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.subnet.label }}<br>
+                {{ server_form.subnet(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.ip_address.label }}<br>
+                {{ server_form.ip_address(class_="form-control") }}
+            </div>
+            <button type="button" class="btn btn-danger remove-server-button">Remove Server</button>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-server-button" class="btn btn-primary">Add Another Server</button>
+
+    <h3>Interfaces</h3>
+    <div id="interface-information-list" class="form-row">
+        {% for interface_form in form.interfaces %}
+        <div class="interface-information">
+            <div class="form-group">
+                {{ interface_form.source_app.label }}<br>
+                {{ interface_form.source_app(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.target_app.label }}<br>
+                {{ interface_form.target_app(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.direction.label }}<br>
+                {{ interface_form.direction(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.frequency.label }}<br>
+                {{ interface_form.frequency(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.mechanism.label }}<br>
+                {{ interface_form.mechanism(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.trigger.label }}<br>
+                {{ interface_form.trigger(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.bandwidth.label }}<br>
+                {{ interface_form.bandwidth(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ interface_form.protcol.label }}<br>
+                {{ interface_form.protcol(class_="form-control") }}
+            </div>
+            <button type="button" class="btn btn-danger remove-interface-button">Remove Interface</button>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-interface-button" class="btn btn-primary">Add Another Interface</button>
+
+    <h3>Web System Information</h3>
+    <div id="web-system-information-list" class="form-row">
+        {% for web_system_form in form.web_system %}
+        <div class="web-system-information">
+            <div class="form-group">
+                {{ web_system_form.environment.label }}<br>
+                {{ web_system_form.environment(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.internet_access.label }}<br>
+                {{ web_system_form.internet_access(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.external_access.label }}<br>
+                {{ web_system_form.external_access(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.web_server.label }}<br>
+                {{ web_system_form.web_server(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.public_ips.label }}<br>
+                {{ web_system_form.public_ips(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.authentication.label }}<br>
+                {{ web_system_form.authentication(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.authorization.label }}<br>
+                {{ web_system_form.authorization(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.load_balanced.label }} {{ web_system_form.load_balanced }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.url.label }}<br>
+                {{ web_system_form.url(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ web_system_form.certificate.label }}<br>
+                {{ web_system_form.certificate(class_="form-control") }}
+            </div>
+            <button type="button" class="btn btn-danger remove-web-system-button">Remove Web System Information</button>
+        </div>
+        {% endfor %}
+    </div>
+    <button type="button" id="add-web-system-button" class="btn btn-primary">Add Another Web System</button>
+    
+
+    <h3>Database Information</h3>
+<div id="database-information-list" class="form-row">
+    {% for database_form in form.database %}
+    <div class="database-information">
+        <div class="form-group">
+            {{ database_form.db_type.label }}<br>
+            {{ database_form.db_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.environment.label }}<br>
+            {{ database_form.environment(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.hostname.label }}<br>
+            {{ database_form.hostname(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.instance_ownership.label }}<br>
+            {{ database_form.instance_ownership(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.os.label }}<br>
+            {{ database_form.os(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.database_platform.label }}<br>
+            {{ database_form.database_platform(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.version.label }}<br>
+            {{ database_form.version(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.auth_type.label }}<br>
+            {{ database_form.auth_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.instance_name.label }}<br>
+            {{ database_form.instance_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.service_account_name.label }}<br>
+            {{ database_form.service_account_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.data_classification.label }}<br>
+            {{ database_form.data_classification(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ database_form.data_sovereignty.label }}<br>
+            {{ database_form.data_sovereignty(class_="form-control") }}
+        </div>
+        <button type="button" class="btn btn-danger remove-database-button">Remove Database Information</button>
+    </div>
+    {% endfor %}
+</div>
+<button type="button" id="add-database-button" class="btn btn-primary">Add Another Database</button>
+
+
+    <h3>Operations - Performance Indicators</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.performance.high_availability.label }} {{ form.performance.high_availability }}
+        </div>
+        <div class="form-group">
+            {{ form.performance.ha_type.label }}<br>
+            {{ form.performance.ha_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.performance.business_health.label }}<br>
+            {{ form.performance.business_health(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.performance.shared_service_list.label }}<br>
+            {{ form.performance.shared_service_list(class_="form-control") }}
+        </div>
+    </div>
+
+    <p>{{ form.submit(class_="btn btn-primary") }}</p>
+</form>
+
+<!-- JavaScript code to handle adding and removing fields -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let serverCount = {{ form.server_information|length }};
+        let interfaceCount = {{ form.interfaces|length }};
+        let stakeholderCount = {{ form.app_stakeholders|length }};
+        let webSystemCount = 1;
+        let databaseCount = 1;
+
+        function cloneTemplate(selector, count, containerId, removeClass) {
+            count++;
+            let template = document.querySelector(selector).cloneNode(true);
+            template.querySelectorAll('input, select').forEach(input => {
+                let name = input.name.replace(/\d+/, count);
+                input.name = name;
+                input.value = "";
+            });
+
+            // Remove any existing remove button from the cloned template
+            let existingRemoveBtn = template.querySelector(`.${removeClass}`);
+            if (existingRemoveBtn) {
+                existingRemoveBtn.remove();
+            }
+
+            // Add new remove button to the cloned element
+            let removeBtn = document.createElement("button");
+            removeBtn.className = `btn btn-danger ${removeClass}`;
+            removeBtn.type = "button";
+            removeBtn.innerText = `Remove ${removeClass.split("-")[1]}`;
+            template.appendChild(removeBtn);
+
+            // Insert the cloned template right after the last form group to keep the layout tight
+            document.getElementById(containerId).appendChild(template);
+            return count;
+        }
+
+        // Clone sections
+        document.getElementById("add-server-button").addEventListener("click", function() {
+            serverCount = cloneTemplate('.server-information', serverCount, "server-information-list", "remove-server-button");
+        });
+
+        document.getElementById("add-interface-button").addEventListener("click", function() {
+            interfaceCount = cloneTemplate('.interface-information', interfaceCount, "interface-information-list", "remove-interface-button");
+        });
+
+        document.getElementById("add-stakeholder-button").addEventListener("click", function() {
+            stakeholderCount = cloneTemplate('.stakeholder-information', stakeholderCount, "stakeholder-information-list", "remove-stakeholder-button");
+        });
+
+        document.getElementById("add-web-system-button").addEventListener("click", function() {
+            webSystemCount = cloneTemplate('.web-system-information', webSystemCount, "web-system-information-list", "remove-web-system-button");
+        });
+
+        document.getElementById("add-database-button").addEventListener("click", function() {
+            databaseCount = cloneTemplate('.database-information', databaseCount, "database-information-list", "remove-database-button");
+        });
+
+        // Remove buttons
+        document.addEventListener("click", function(event) {
+            if (event.target && event.target.classList.contains("remove-server-button")) {
+                event.target.closest(".server-information").remove();
+            }
+            if (event.target && event.target.classList.contains("remove-interface-button")) {
+                event.target.closest(".interface-information").remove();
+            }
+            if (event.target && event.target.classList.contains("remove-stakeholder-button")) {
+                event.target.closest(".stakeholder-information").remove();
+            }
+            if (event.target && event.target.classList.contains("remove-web-system-button")) {
+                event.target.closest(".web-system-information").remove();
+            }
+            if (event.target && event.target.classList.contains("remove-database-button")) {
+                event.target.closest(".database-information").remove();
+            }
+        });
+
+        // Form validation for incomplete fields
+        const form = document.getElementById('app-discovery-form');
+        form.addEventListener('submit', function(event) {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            let incompleteFields = [];
+            let allComplete = true;
+
+            inputs.forEach(input => {
+                if (input.value.trim() === '') {
+                    input.style.border = "2px solid red";
+                    incompleteFields.push(input.name);
+                    allComplete = false;
+                } else {
+                    input.style.border = "";
+                }
+            });
+
+            if (!allComplete) {
+                const confirmSubmit = confirm('Some fields are incomplete. Do you still want to submit?');
+                if (!confirmSubmit) {
+                    event.preventDefault();
+                }
+            }
+        });
+    });
+</script>
+
+{% endblock %}

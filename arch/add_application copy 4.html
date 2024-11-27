@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Application{% endblock %}
+
+{% block content %}
+<h2>Add New Application</h2>
+<form method="POST" id="app-discovery-form">
+    {{ form.hidden_tag() }}
+
+    <h3>Application Overview</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.app_name.label }}<br>
+            {{ form.app_overview.app_name(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_desc_full.label }}<br>
+            {{ form.app_overview.app_desc_full(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_type.label }}<br>
+            {{ form.app_overview.app_type(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.app_version.label }}<br>
+            {{ form.app_overview.app_version(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Business Details</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_owner.label }}<br>
+            {{ form.app_overview.business_details.business_owner(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.business_details.business_purpose.label }}<br>
+            {{ form.app_overview.business_details.business_purpose(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Application Meta</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_overview.application_meta.number_of_users.label }}<br>
+            {{ form.app_overview.application_meta.number_of_users(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.release_freq.label }}<br>
+            {{ form.app_overview.application_meta.release_freq(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.work_hours_stand.label }}<br>
+            {{ form.app_overview.application_meta.work_hours_stand(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_overview.application_meta.planned_reg_downtime.label }}<br>
+            {{ form.app_overview.application_meta.planned_reg_downtime(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Application Stakeholders</h3>
+    <div class="form-row">
+        {% for stakeholder_form in form.app_stakeholders %}
+            <div class="form-group">
+                {{ stakeholder_form.stakeholder_name.label }}<br>
+                {{ stakeholder_form.stakeholder_name(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.contact_type.label }}<br>
+                {{ stakeholder_form.contact_type(class_="form-control") }} <!-- Correct way to render with class_ -->
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.business_unit.label }}<br>
+                {{ stakeholder_form.business_unit(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.department.label }}<br>
+                {{ stakeholder_form.department(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.number.label }}<br>
+                {{ stakeholder_form.number(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.email.label }}<br>
+                {{ stakeholder_form.email(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ stakeholder_form.position.label }}<br>
+                {{ stakeholder_form.position(class_="form-control") }}
+            </div>
+        {% endfor %}
+    </div>
+    
+    
+    
+
+    <h3>Business Capability Model</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_bus_cap_model.capability_model.label }}<br>
+            {{ form.app_bus_cap_model.capability_model(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.front_office.label }} {{ form.app_bus_cap_model.front_office }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.back_office.label }} {{ form.app_bus_cap_model.back_office }}
+        </div>
+        <div class="form-group">
+            {{ form.app_bus_cap_model.middle_office.label }} {{ form.app_bus_cap_model.middle_office }}
+        </div>
+    </div>
+
+    <h3>Application Operation</h3>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form.app_operation.high_availability.label }} {{ form.app_operation.high_availability }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.disaster_recovery.label }} {{ form.app_operation.disaster_recovery }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.rto.label }}<br>
+            {{ form.app_operation.rto(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ form.app_operation.rpo.label }}<br>
+            {{ form.app_operation.rpo(class_="form-control") }}
+        </div>
+    </div>
+
+    <h3>Network Information</h3>
+    <div id="network-information-list" class="form-row">
+        {% for network_form in form.network_information %}
+        <div class="form-group">
+            {{ network_form.environment.label }}<br>
+            {{ network_form.environment(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ network_form.hostname.label }}<br>
+            {{ network_form.hostname(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ network_form.network_name.label }}<br>
+            {{ network_form.network_name(class_="form-control") }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <h3>Servers</h3>
+    <div id="server-information-list" class="form-row">
+        {% for server_form in form.server_information %}
+        <div class="server-information">
+            <div class="form-group">
+                {{ server_form.environment.label }}<br>
+                {{ server_form.environment(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.hostname.label }}<br>
+                {{ server_form.hostname(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.role.label }}<br>
+                {{ server_form.role(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.platform_type.label }}<br>
+                {{ server_form.platform_type(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.shared_or_dedicated.label }}<br>
+                {{ server_form.shared_or_dedicated(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os.label }}<br>
+                {{ server_form.os(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os_features.label }}<br>
+                {{ server_form.os_features(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.cpu.label }}<br>
+                {{ server_form.cpu(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.ram.label }}<br>
+                {{ server_form.ram(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.os_disk_gb.label }}<br>
+                {{ server_form.os_disk_gb(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.data_disk_count.label }}<br>
+                {{ server_form.data_disk_count(class_="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ server_form.shared_data_store.label }}<br>
+                {{ server_form.shared_data_store(class_="form-control") }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-server-button" class="btn btn-primary">Add Another Server</button>
+
+    <h3>Interfaces</h3>
+    <div id="interface-information-list" class="form-row">
+        {% for interface_form in form.interfaces %}
+        <div class="form-group">
+            {{ interface_form.source_app.label }}<br>
+            {{ interface_form.source_app(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.target_app.label }}<br>
+            {{ interface_form.target_app(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.direction.label }}<br>
+            {{ interface_form.direction(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.frequency.label }}<br>
+            {{ interface_form.frequency(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.mechanism.label }}<br>
+            {{ interface_form.mechanism(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.trigger.label }}<br>
+            {{ interface_form.trigger(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.bandwidth.label }}<br>
+            {{ interface_form.bandwidth(class_="form-control") }}
+        </div>
+        <div class="form-group">
+            {{ interface_form.protcol.label }}<br>
+            {{ interface_form.protcol(class_="form-control") }}
+        </div>
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-interface-button" class="btn btn-primary">Add Another Interface</button>
+
+    <p>{{ form.submit() }}</p>
+</form>
+
+<script>
+    document.getElementById('app-discovery-form').addEventListener('submit', function(event) {
+        // Find all inputs in the form
+        var inputs = document.querySelectorAll('input, textarea, select');
+        var incompleteFields = [];
+        var allComplete = true;
+
+        // Check each input and mark it as completed or incomplete
+        inputs.forEach(function(input) {
+            if (input.value.trim() === '') {
+                // Incomplete field
+                input.classList.remove('input-complete');
+                input.classList.add('input-incomplete');
+                incompleteFields.push(input.name);  // Collect incomplete fields
+                allComplete = false;
+            } else {
+                // Completed field
+                input.classList.remove('input-incomplete');
+                input.classList.add('input-complete');
+            }
+        });
+
+        // If not all fields are complete, show confirmation prompt
+        if (!allComplete) {
+            var confirmSubmit = confirm('Some items have not been completed. Are you sure you want to submit?');
+            if (!confirmSubmit) {
+                // Prevent form submission if user cancels
+                event.preventDefault();
+            }
+        }
+    });
+</script>
+
+{% endblock %}

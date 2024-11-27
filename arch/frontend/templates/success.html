@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submission Successful</title>
+</head>
+<body>
+    <h1>App Discovery Submitted</h1>
+    <p><strong>App Name:</strong> {{ app_name }}</p>
+    <p><strong>Description:</strong> {{ description }}</p>
+    <h3>Servers:</h3>
+    <ul>
+        {% for server in servers %}
+            <li>{{ server }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

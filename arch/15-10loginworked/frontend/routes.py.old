@@ -1,0 +1,13 @@
+# routes.py
+import logging
+from flask import jsonify
+from app import app  # Import the app instance from app.py
+
+logger = logging.getLogger(__name__)
+
+logger.debug('Routes are being registered.')
+
+@app.route('/')
+def home():
+    logger.debug('Home route accessed in routes.py.')
+    return jsonify(message="Home route is working from routes.py")

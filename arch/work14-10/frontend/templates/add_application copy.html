@@ -1,0 +1,235 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Application{% endblock %}
+
+{% block content %}
+    <h2>Add New Application</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <h3>Application Overview</h3>
+        <p>
+            {{ form.app_overview.app_name.label }}<br>
+            {{ form.app_overview.app_name(size=32) }}<br>
+            {% for error in form.app_overview.app_name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.app_overview.app_desc_full.label }}<br>
+            {{ form.app_overview.app_desc_full(rows=5, cols=40) }}<br>
+            {% for error in form.app_overview.app_desc_full.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.app_overview.app_type.label }}<br>
+            {{ form.app_overview.app_type }}<br>
+        </p>
+        <p>
+            {{ form.app_overview.app_version.label }}<br>
+            {{ form.app_overview.app_version }}<br>
+        </p>
+
+        <h3>Business Details</h3>
+        <p>
+            {{ form.app_overview.business_details.business_owner.label }}<br>
+            {{ form.app_overview.business_details.business_owner }}<br>
+        </p>
+        <p>
+            {{ form.app_overview.business_details.business_purpose.label }}<br>
+            {{ form.app_overview.business_details.business_purpose }}<br>
+        </p>
+
+        <h3>Application Meta</h3>
+        <p>
+            {{ form.app_overview.application_meta.number_of_users.label }}<br>
+            {{ form.app_overview.application_meta.number_of_users }}<br>
+        </p>
+        <p>
+            {{ form.app_overview.application_meta.release_freq.label }}<br>
+            {{ form.app_overview.application_meta.release_freq }}<br>
+        </p>
+
+        <h3>Application Stakeholders</h3>
+        {% for stakeholder_form in form.app_stakeholders %}
+            <div class="stakeholder-information">
+                <p>
+                    {{ stakeholder_form.name.label }}<br>
+                    {{ stakeholder_form.name }}<br>
+                </p>
+                <p>
+                    {{ stakeholder_form.contact_type.label }}<br>
+                    {{ stakeholder_form.contact_type }}<br>
+                </p>
+            </div>
+        {% endfor %}
+
+        <h3>Business Capability Model</h3>
+        <p>
+            {{ form.app_bus_cap_model.capability_model.label }}<br>
+            {{ form.app_bus_cap_model.capability_model }}<br>
+        </p>
+        <p>
+            {{ form.app_bus_cap_model.front_office.label }} {{ form.app_bus_cap_model.front_office }}<br>
+        </p>
+
+        <h3>Application Operation</h3>
+        <p>
+            {{ form.app_operation.high_availability.label }} {{ form.app_operation.high_availability }}<br>
+        </p>
+        <p>
+            {{ form.app_operation.disaster_recovery.label }} {{ form.app_operation.disaster_recovery }}<br>
+        </p>
+        <p>
+            {{ form.app_operation.rto.label }}<br>
+            {{ form.app_operation.rto }}<br>
+        </p>
+        <p>
+            {{ form.app_operation.rpo.label }}<br>
+            {{ form.app_operation.rpo }}<br>
+        </p>
+
+        <h3>Network Information</h3>
+        <div id="network-information-list">
+            {% for network_form in form.network_information %}
+                <div class="network-information">
+                    <p>
+                        {{ network_form.environment.label }}<br>
+                        {{ network_form.environment }}<br>
+                    </p>
+                    <p>
+                        {{ network_form.hostname.label }}<br>
+                        {{ network_form.hostname }}<br>
+                    </p>
+                    <p>
+                        {{ network_form.network_name.label }}<br>
+                        {{ network_form.network_name }}<br>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3>Servers</h3>
+        <div id="server-information-list">
+            {% for server_form in form.server_information %}
+                <div class="server-information">
+                    <p>
+                        {{ server_form.environment.label }}<br>
+                        {{ server_form.environment }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.hostname.label }}<br>
+                        {{ server_form.hostname }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.role.label }}<br>
+                        {{ server_form.role }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.platform_type.label }}<br>
+                        {{ server_form.platform_type }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.shared_or_dedicated.label }}<br>
+                        {{ server_form.shared_or_dedicated }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.os.label }}<br>
+                        {{ server_form.os }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.os_features.label }}<br>
+                        {{ server_form.os_features }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.cpu.label }}<br>
+                        {{ server_form.cpu }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.ram.label }}<br>
+                        {{ server_form.ram }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.os_disk_gb.label }}<br>
+                        {{ server_form.os_disk_gb }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.data_disk_count.label }}<br>
+                        {{ server_form.data_disk_count }}<br>
+                    </p>
+                    <p>
+                        {{ server_form.shared_data_store.label }}<br>
+                        {{ server_form.shared_data_store }}<br>
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Add Another Server Button -->
+        <p>
+            <button type="button" id="add-server-button">Add Another Server</button>
+        </p>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <!-- Add JavaScript to dynamically add server fields -->
+    <script>
+        document.getElementById('add-server-button').addEventListener('click', function() {
+            var serverFormCount = document.querySelectorAll('.server-information').length;
+            var newServerForm = `
+                <div class="server-information">
+                    <p>
+                        <label for="server_information-${serverFormCount}-environment">Environment:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-environment" id="server_information-${serverFormCount}-environment" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-hostname">Hostname:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-hostname" id="server_information-${serverFormCount}-hostname" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-role">Role:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-role" id="server_information-${serverFormCount}-role" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-platform_type">Platform Type:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-platform_type" id="server_information-${serverFormCount}-platform_type" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-shared_or_dedicated">Shared or Dedicated:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-shared_or_dedicated" id="server_information-${serverFormCount}-shared_or_dedicated" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os">Operating System:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os" id="server_information-${serverFormCount}-os" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os_features">OS Features:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os_features" id="server_information-${serverFormCount}-os_features" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-cpu">CPU:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-cpu" id="server_information-${serverFormCount}-cpu" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-ram">RAM:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-ram" id="server_information-${serverFormCount}-ram" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os_disk_gb">OS Disk Size (GB):</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os_disk_gb" id="server_information-${serverFormCount}-os_disk_gb" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-data_disk_count">Data Disk Count:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-data_disk_count" id="server_information-${serverFormCount}-data_disk_count" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-shared_data_store">Shared Data Store:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-shared_data_store" id="server_information-${serverFormCount}-shared_data_store" size="32"><br>
+                    </p>
+                </div>`;
+            document.getElementById('server-information-list').insertAdjacentHTML('beforeend', newServerForm);
+        });
+    </script>
+{% endblock %}

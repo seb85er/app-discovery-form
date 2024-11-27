@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Application</title>
+</head>
+<body>
+    <h1>Add New Application</h1>
+
+    <!-- Link to go back to the default page -->
+    <p><a href="{{ url_for('home') }}">Back to Home</a></p>
+
+    <form method="POST">
+        {{ form.hidden_tag() }} <!-- Includes CSRF token for the form -->
+
+        <p>
+            {{ form.app_name.label }}<br>
+            {{ form.app_name(size=32) }}<br>
+            {% for error in form.app_name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(rows=5, cols=40) }}<br>
+            {% for error in form.description.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+
+        <h3>Servers</h3>
+        {% for server_form in form.servers %}
+            <p>
+                {{ server_form.csrf_token }} <!-- Hidden CSRF token for each dynamic field -->
+                {{ server_form.server_name.label }}<br>
+                {{ server_form.server_name(size=32) }}<br>
+                {% for error in server_form.server_name.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+        {% endfor %}
+
+        <p>
+            <button type="submit" name="add_server" value="1">Add Another Server</button>
+        </p>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>

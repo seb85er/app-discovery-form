@@ -1,0 +1,420 @@
+{% extends 'base.html' %}
+
+{% block title %}Add New Application{% endblock %}
+
+{% block content %}
+    <h2>Add New Application</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <h3>Application Overview</h3>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.app_overview.app_name.label }}<br>
+                {{ form.app_overview.app_name }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_desc_full.label }}<br>
+                {{ form.app_overview.app_desc_full }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_desc_one_liner.label }}<br>
+                {{ form.app_overview.app_desc_one_liner }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_type.label }}<br>
+                {{ form.app_overview.app_type }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_age.label }}<br>
+                {{ form.app_overview.app_age }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_version.label }}<br>
+                {{ form.app_overview.app_version }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_runtime_lang.label }}<br>
+                {{ form.app_overview.app_runtime_lang }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_complexity.label }}<br>
+                {{ form.app_overview.app_complexity }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_support.label }}<br>
+                {{ form.app_overview.app_support }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_env.label }}<br>
+                {{ form.app_overview.app_env }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.app_exists.label }}<br>
+                {{ form.app_overview.app_exists }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.other_runtime_lang.label }}<br>
+                {{ form.app_overview.other_runtime_lang }}
+            </div>
+        </div>
+
+        <h3>Business Details</h3>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.app_overview.business_details.business_owner.label }}<br>
+                {{ form.app_overview.business_details.business_owner }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.business_details.business_purpose.label }}<br>
+                {{ form.app_overview.business_details.business_purpose }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.business_details.business_criticality.label }}<br>
+                {{ form.app_overview.business_details.business_criticality }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.business_details.business_impact.label }}<br>
+                {{ form.app_overview.business_details.business_impact }}
+            </div>
+        </div>
+
+        <h3>Application Meta</h3>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.app_overview.application_meta.number_of_users.label }}<br>
+                {{ form.app_overview.application_meta.number_of_users }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.application_meta.release_freq.label }}<br>
+                {{ form.app_overview.application_meta.release_freq }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.application_meta.work_hours_stand.label }}<br>
+                {{ form.app_overview.application_meta.work_hours_stand }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.application_meta.planned_reg_downtime.label }}<br>
+                {{ form.app_overview.application_meta.planned_reg_downtime }}
+            </div>
+            <div class="form-group">
+                {{ form.app_overview.application_meta.documentation.label }}<br>
+                {{ form.app_overview.application_meta.documentation }}
+            </div>
+        </div>
+
+        <h3>Application Stakeholders</h3>
+        <div class="form-row">
+            {% for stakeholder_form in form.app_stakeholders %}
+                <div class="form-group">
+                    {{ stakeholder_form.name.label }}<br>
+                    {{ stakeholder_form.name }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.contact_type.label }}<br>
+                    {{ stakeholder_form.contact_type }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.business_unit.label }}<br>
+                    {{ stakeholder_form.business_unit }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.department.label }}<br>
+                    {{ stakeholder_form.department }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.number.label }}<br>
+                    {{ stakeholder_form.number }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.email.label }}<br>
+                    {{ stakeholder_form.email }}
+                </div>
+                <div class="form-group">
+                    {{ stakeholder_form.position.label }}<br>
+                    {{ stakeholder_form.position }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3>Business Capability Model</h3>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.app_bus_cap_model.capability_model.label }}<br>
+                {{ form.app_bus_cap_model.capability_model }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.front_office.label }} {{ form.app_bus_cap_model.front_office }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.back_office.label }} {{ form.app_bus_cap_model.back_office }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.middle_office.label }} {{ form.app_bus_cap_model.middle_office }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.it_for_it.label }} {{ form.app_bus_cap_model.it_for_it }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.enterprise.label }} {{ form.app_bus_cap_model.enterprise }}
+            </div>
+            <div class="form-group">
+                {{ form.app_bus_cap_model.not_mapped.label }} {{ form.app_bus_cap_model.not_mapped }}
+            </div>
+        </div>
+
+        <h3>Application Operation</h3>
+        <div class="form-row">
+            <div class="form-group">
+                {{ form.app_operation.high_availability.label }} {{ form.app_operation.high_availability }}
+            </div>
+            <div class="form-group">
+                {{ form.app_operation.disaster_recovery.label }} {{ form.app_operation.disaster_recovery }}
+            </div>
+            <div class="form-group">
+                {{ form.app_operation.rto.label }}<br>
+                {{ form.app_operation.rto }}
+            </div>
+            <div class="form-group">
+                {{ form.app_operation.rpo.label }}<br>
+                {{ form.app_operation.rpo }}
+            </div>
+        </div>
+
+        <h3>Network Information</h3>
+        <div id="network-information-list" class="form-row">
+            {% for network_form in form.network_information %}
+                <div class="form-group">
+                    {{ network_form.environment.label }}<br>
+                    {{ network_form.environment }}
+                </div>
+                <div class="form-group">
+                    {{ network_form.hostname.label }}<br>
+                    {{ network_form.hostname }}
+                </div>
+                <div class="form-group">
+                    {{ network_form.network_name.label }}<br>
+                    {{ network_form.network_name }}
+                </div>
+                <div class="form-group">
+                    {{ network_form.network_range.label }}<br>
+                    {{ network_form.network_range }}
+                </div>
+                <div class="form-group">
+                    {{ network_form.subnet.label }}<br>
+                    {{ network_form.subnet }}
+                </div>
+                <div class="form-group">
+                    {{ network_form.ip_address.label }}<br>
+                    {{ network_form.ip_address }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <h3>Servers</h3>
+        <div id="server-information-list" class="form-row">
+            {% for server_form in form.server_information %}
+                <div class="server-information">
+                    <div class="form-group">
+                        {{ server_form.environment.label }}<br>
+                        {{ server_form.environment }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.hostname.label }}<br>
+                        {{ server_form.hostname }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.role.label }}<br>
+                        {{ server_form.role }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.platform_type.label }}<br>
+                        {{ server_form.platform_type }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.shared_or_dedicated.label }}<br>
+                        {{ server_form.shared_or_dedicated }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.os.label }}<br>
+                        {{ server_form.os }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.os_features.label }}<br>
+                        {{ server_form.os_features }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.cpu.label }}<br>
+                        {{ server_form.cpu }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.ram.label }}<br>
+                        {{ server_form.ram }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.os_disk_gb.label }}<br>
+                        {{ server_form.os_disk_gb }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.data_disk_count.label }}<br>
+                        {{ server_form.data_disk_count }}
+                    </div>
+                    <div class="form-group">
+                        {{ server_form.shared_data_store.label }}<br>
+                        {{ server_form.shared_data_store }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-server-button" class="btn btn-primary">Add Another Server</button>
+
+        <h3>Interfaces</h3>
+        <div id="interface-information-list" class="form-row">
+            {% for interface_form in form.interfaces %}
+                <div class="form-group">
+                    {{ interface_form.source_app.label }}<br>
+                    {{ interface_form.source_app }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.target_app.label }}<br>
+                    {{ interface_form.target_app }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.direction.label }}<br>
+                    {{ interface_form.direction }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.frequency.label }}<br>
+                    {{ interface_form.frequency }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.mechanism.label }}<br>
+                    {{ interface_form.mechanism }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.trigger.label }}<br>
+                    {{ interface_form.trigger }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.bandwidth.label }}<br>
+                    {{ interface_form.bandwidth }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.protcol.label }}<br>
+                    {{ interface_form.protcol }}
+                </div>
+                <div class="form-group">
+                    {{ interface_form.other_system_owner.label }}<br>
+                    {{ interface_form.other_system_owner }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" id="add-interface-button" class="btn btn-primary">Add Another Interface</button>
+
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <script>
+        document.getElementById('add-server-button').addEventListener('click', function() {
+            var serverFormCount = document.querySelectorAll('.server-information').length;
+            var newServerForm = `
+                <div class="server-information">
+                    <p>
+                        <label for="server_information-${serverFormCount}-environment">Environment:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-environment" id="server_information-${serverFormCount}-environment" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-hostname">Hostname:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-hostname" id="server_information-${serverFormCount}-hostname" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-role">Role:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-role" id="server_information-${serverFormCount}-role" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-platform_type">Platform Type:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-platform_type" id="server_information-${serverFormCount}-platform_type" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-shared_or_dedicated">Shared or Dedicated:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-shared_or_dedicated" id="server_information-${serverFormCount}-shared_or_dedicated" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os">Operating System:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os" id="server_information-${serverFormCount}-os" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os_features">OS Features:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os_features" id="server_information-${serverFormCount}-os_features" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-cpu">CPU:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-cpu" id="server_information-${serverFormCount}-cpu" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-ram">RAM:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-ram" id="server_information-${serverFormCount}-ram" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-os_disk_gb">OS Disk Size (GB):</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-os_disk_gb" id="server_information-${serverFormCount}-os_disk_gb" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-data_disk_count">Data Disk Count:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-data_disk_count" id="server_information-${serverFormCount}-data_disk_count" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="server_information-${serverFormCount}-shared_data_store">Shared Data Store:</label><br>
+                        <input type="text" name="server_information-${serverFormCount}-shared_data_store" id="server_information-${serverFormCount}-shared_data_store" size="32"><br>
+                    </p>
+                </div>`;
+            document.getElementById('server-information-list').insertAdjacentHTML('beforeend', newServerForm);
+        });
+
+        document.getElementById('add-interface-button').addEventListener('click', function() {
+            var interfaceFormCount = document.querySelectorAll('.interface-information').length;
+            var newInterfaceForm = `
+                <div class="interface-information">
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-source_app">Source App:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-source_app" id="interface_information-${interfaceFormCount}-source_app" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-target_app">Target App:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-target_app" id="interface_information-${interfaceFormCount}-target_app" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-direction">Direction:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-direction" id="interface_information-${interfaceFormCount}-direction" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-frequency">Frequency:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-frequency" id="interface_information-${interfaceFormCount}-frequency" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-mechanism">Mechanism:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-mechanism" id="interface_information-${interfaceFormCount}-mechanism" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-trigger">Trigger:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-trigger" id="interface_information-${interfaceFormCount}-trigger" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-bandwidth">Bandwidth:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-bandwidth" id="interface_information-${interfaceFormCount}-bandwidth" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-protcol">Protocol:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-protcol" id="interface_information-${interfaceFormCount}-protcol" size="32"><br>
+                    </p>
+                    <p>
+                        <label for="interface_information-${interfaceFormCount}-other_system_owner">Other System Owner:</label><br>
+                        <input type="text" name="interface_information-${interfaceFormCount}-other_system_owner" id="interface_information-${interfaceFormCount}-other_system_owner" size="32"><br>
+                    </p>
+                </div>`;
+            document.getElementById('interface-information-list').insertAdjacentHTML('beforeend', newInterfaceForm);
+        });
+    </script>
+{% endblock %}

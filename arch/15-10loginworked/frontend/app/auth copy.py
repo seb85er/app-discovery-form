@@ -1,0 +1,135 @@
+import logging
+from flask import render_template, redirect, url_for, flash, session, request
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import app
+from app.database import container as user_container  # 'users' container for user authentication
+from app.database import container as role_container  # 'roles' container for role-based access
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, SelectField
+from wtforms.validators import DataRequired
+import uuid
+
+logger = logging.getLogger(__name__)
+
+# Define the login form
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Login')
+
+# Define the form for creating users (admin panel)
+class AdminCreateUserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    role = SelectField('Role', choices=[('admin', 'Admin'), ('test', 'Test')], validators=[DataRequired()])
+    submit = SubmitField('Create User')
+
+# Function to authenticate user
+def authenticate_user(username, password):
+    try:
+        # Fetch user from Cosmos DB with an enhanced logging to show all retrieved items
+        query = f"SELECT * FROM c WHERE c.username = '{username}'"
+        users = list(user_container.query_items(query=query, enable_cross_partition_query=True))
+
+        # Log if no users were found or log each user's username for clarity
+        if not users:
+            logger.warning(f"No user found with username: {username}")
+        else:
+            for retrieved_user in users:
+                logger.debug(f"Retrieved user: {retrieved_user['username']}")
+            
+        # Authenticate user if found and password matches
+        if users:
+            user = users[0]  # Assume only one user per username
+            if check_password_hash(user['password_hash'], password):
+                logger.debug("Password is correct")
+                return user  # Authenticated
+            else:
+                logger.warning("Password is incorrect")
+        return None
+    except Exception as e:
+        logger.error(f"Error fetching user: {e}")
+        return None
+
+# Function to get user roles
+def get_user_roles(user_id):
+    try:
+        query = f"SELECT * FROM c WHERE c.user_id = '{user_id}'"
+        roles = list(role_container.query_items(query=query, enable_cross_partition_query=True))
+        role_list = [role['role'] for role in roles]
+        logger.debug(f"Roles retrieved for user_id {user_id}: {role_list}")
+        return roles
+    except Exception as e:
+        logger.error(f"Error fetching roles: {e}")
+        return []
+
+# Login route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = authenticate_user(form.username.data, form.password.data)
+        if user:
+            session['user_id'] = user['id']  # Store user ID in session
+            session['username'] = user['username']
+            session['roles'] = [role['role'] for role in get_user_roles(user['id'])]
+
+            flash(f'Welcome {user["username"]}!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Invalid username or password', 'danger')
+    
+    return render_template('login.html', form=form)
+
+# Logout route
+@app.route('/logout')
+def logout():
+    session.clear()  # Clear the session
+    flash('You have been logged out', 'success')
+    return redirect(url_for('login'))
+
+# Role-based access control (helper)
+def role_required(role):
+    def wrapper(func):
+        def wrapped(*args, **kwargs):
+            if 'roles' in session and role in session['roles']:
+                return func(*args, **kwargs)
+            else:
+                flash('You do not have access to this page', 'danger')
+                return redirect(url_for('login'))
+        return wrapped
+    return wrapper
+
+# Admin route for creating users
+@app.route('/admin', methods=['GET', 'POST'])
+@role_required('admin')  # Only admins can access this route
+def admin_create_user():
+    form = AdminCreateUserForm()
+
+    if form.validate_on_submit():
+        # Generate a hashed password
+        password_hash = generate_password_hash(form.password.data)
+
+        # Create a new user in Cosmos DB
+        user_id = str(uuid.uuid4())  # Generate a unique ID for the user
+        new_user = {
+            "id": user_id,
+            "username": form.username.data,
+            "password_hash": password_hash
+        }
+        user_container.create_item(new_user)
+        logger.info(f"User {form.username.data} created.")
+
+        # Assign the selected role to the user
+        new_role = {
+            "id": str(uuid.uuid4()),
+            "user_id": user_id,
+            "role": form.role.data
+        }
+        role_container.create_item(new_role)
+        logger.info(f"Role '{form.role.data}' assigned to user {form.username.data}.")
+
+        flash(f'User {form.username.data} with role {form.role.data} created successfully!', 'success')
+        return redirect(url_for('admin_create_user'))
+
+    return render_template('admin.html', form=form)

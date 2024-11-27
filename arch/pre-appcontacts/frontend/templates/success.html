@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>App Discovery Submitted</h1>
+    <p><strong>App Name:</strong> {{ app_name }}</p>
+    <p><strong>Description:</strong> {{ description }}</p>
+    <h3>Servers:</h3>
+    <ul>
+        {% for server in servers %}
+        <li>{{ server }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('home') }}" class="btn btn-secondary">Back to Home</a>
+{% endblock %}

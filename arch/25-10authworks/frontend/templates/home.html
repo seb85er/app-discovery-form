@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Welcome to the Application Discovery Tool</h1>
+<a href="{{ url_for('add_application') }}">Add Application</a>
+<a href="{{ url_for('view_applications') }}">View Applications</a>
+
+{% if session.get("user_role") == "admin" %}
+    <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+{% endif %}
+{% endblock %}

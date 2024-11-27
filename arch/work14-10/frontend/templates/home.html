@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Welcome to the Application Discovery Tool</h1>
+<a href="{{ url_for('add_application') }}">Add Application</a>
+<a href="{{ url_for('view_applications') }}">View Applications</a>
+{% endblock %}

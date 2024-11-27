@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Admin - User Management</h1>
+
+<!-- User creation form -->
+<form action="{{ url_for('admin_dashboard') }}" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        <label for="username">{{ form.username.label }}</label>
+        {{ form.username(size=32) }}
+    </div>
+    <div>
+        <label for="password">{{ form.password.label }}</label>
+        {{ form.password(size=32) }}
+    </div>
+    <div>
+        <label for="role">{{ form.role.label }}</label>
+        {{ form.role() }}
+    </div>
+    <div>
+        {{ form.submit() }}
+    </div>
+</form>
+
+<!-- Display list of users and their roles -->
+<h2>Existing Users</h2>
+<table>
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users_with_roles %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
