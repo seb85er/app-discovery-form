@@ -7,6 +7,7 @@ param appName string = 'apppassports'
 param keyVaultName string = 'apppassports099'
 param cosmosDbRegion string = location
 param cosmosDbDatabaseName string = 'apppassports'
+param aiSearchServiceName string = 'apppassports'
 param cosmosDbContainerName string = 'applications'
 param rgName string = 'apppass-rsg'  // Resource group name
 
@@ -99,6 +100,20 @@ resource keyVault 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
     enableSoftDelete: true
     softDeleteRetentionInDays: 90
     accessPolicies: []
+  }
+}
+
+// AI Search Service (Free Tier)
+resource aiSearch 'Microsoft.Search/searchServices@2020-08-01' = {
+  name: aiSearchServiceName
+  location: location
+  sku: {
+    name: 'free'
+  }
+  properties: {
+    hostingMode: 'default'
+    partitionCount: 1
+    replicaCount: 1
   }
 }
 
